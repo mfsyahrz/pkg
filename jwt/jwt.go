@@ -90,3 +90,26 @@ func IsValid(tokenJwt string, sk string) bool {
 
 	return true
 }
+
+func Decode(tokenJwt, sk string) (jwt.MapClaims, bool) {
+	SignatureKey := []byte(sk)
+	token, err := jwt.Parse(tokenJwt, func(token *jwt.Token) (interface{}, error) {
+		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return false, fmt.Errorf("Signing method invalid")
+		} else if method != SigningMethod {
+			return false, fmt.Errorf("Signing method invalid")
+		}
+
+		return SignatureKey, nil
+	})
+	if err != nil {
+		return nil, false
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		return nil, false
+	}
+
+	return claims, true
+}
