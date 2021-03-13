@@ -42,7 +42,7 @@ func GenerateToken(UserID string, SignatureKey string) (string, error) {
 
 }
 
-func GenerateTokenXAPI(appID, UserID string, SignatureKey string) (string, error) {
+func GenerateTokenExternal(appID, UserID string, SignatureKey string) (string, error) {
 	c := claims{
 		StandardClaims: jwt.StandardClaims{
 			Issuer:    AppName,
