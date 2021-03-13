@@ -42,7 +42,8 @@ func GenerateToken(UserID string, SignatureKey string) (string, error) {
 
 }
 
-func GenerateTokenExternal(appID, UserID string, SignatureKey string) (string, error) {
+func GenerateTokenExternal(appID, UserID string, sk string) (string, error) {
+	SignatureKey := []byte(sk)
 	c := claims{
 		StandardClaims: jwt.StandardClaims{
 			Issuer:    AppName,
@@ -65,7 +66,8 @@ func GenerateTokenExternal(appID, UserID string, SignatureKey string) (string, e
 	return signedToken, nil
 }
 
-func IsValid(tokenJwt string, SignatureKey string) bool {
+func IsValid(tokenJwt string, sk string) bool {
+	SignatureKey := []byte(sk)
 	token, err := jwt.Parse(tokenJwt, func(token *jwt.Token) (interface{}, error) {
 		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return false, fmt.Errorf("Signing method invalid")
