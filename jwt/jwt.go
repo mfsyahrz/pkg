@@ -19,6 +19,8 @@ type claims struct {
 	AppID  string
 }
 
+type test struct{}
+
 func GenerateToken(UserID string, sk string) (string, error) {
 	SignatureKey := []byte(sk)
 	c := claims{
