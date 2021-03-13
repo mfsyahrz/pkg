@@ -19,7 +19,8 @@ type claims struct {
 	AppID  string
 }
 
-func GenerateToken(UserID string, SignatureKey string) (string, error) {
+func GenerateToken(UserID string, sk string) (string, error) {
+	SignatureKey := []byte(sk)
 	c := claims{
 		StandardClaims: jwt.StandardClaims{
 			Issuer:    AppName,
